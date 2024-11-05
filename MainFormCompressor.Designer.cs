@@ -78,15 +78,16 @@
 
                     originalImage = loadedImage;
 
-                    ApplyDCT();
-                    ApplyDWT();
+                    var task1 = ApplyDCT();
+                    var task2 = ApplyDWT();
+                    Task.WhenAll(task1, task2);
                     ShowImages();
                     DisplayImageSizes();
                 }
             }
         }
 
-        private void ApplyDCT()
+        private async Task ApplyDCT()
         {
             int blockSize = 8;
             int width = originalImage.Width;
@@ -105,7 +106,7 @@
                 }
             }
         }
-        private void ApplyDWT()
+        private async Task ApplyDWT()
         {
             int width = originalImage.Width;
             int height = originalImage.Height;
@@ -143,7 +144,6 @@
             }
             return dct;
         }
-
         private double[,] InverseDCTTransform(double[,] dctBlock)
         {
             int N = dctBlock.GetLength(0);
